@@ -15,20 +15,20 @@ import java.util.List;
 @Service
 public class TotalCharactersService {
   private static final Logger LOGGER = LoggerFactory.getLogger(TotalCharactersService.class);
-  private final int STRING_LENGTH = 1000;
+  private static final int STRING_LENGTH = 1000;
 
-  MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
-  List<String> stringList = new LinkedList<>();
-  int length = 0;
-  long maxMemory = memoryBean.getHeapMemoryUsage().getMax();
-  long usedMemory;
+  private MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
+  private List<String> stringList = new LinkedList<>();
 
   public void run() {
+    int length;
+    long usedMemory;
+    long maxMemory = memoryBean.getHeapMemoryUsage().getMax();
     try {
       for (int i = 0; i < 50000000; i++) {
         stringList.add(getString());
         if (i % 10 == 0) {
-          System.out.println("Current count: " + i);
+          LOGGER.debug("Current count: {}", i);
         }
       }
     }
