@@ -1,4 +1,4 @@
-package ammonclegg.java.apprentice.total.characters;
+package ammonclegg.java.apprentice.totalcharacters;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

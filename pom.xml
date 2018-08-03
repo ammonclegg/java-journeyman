@@ -71,5 +71,6 @@
 
   <modules>
     <module>totalCharacters</module>
+    <module>file-sorter</module>
   </modules>
 </project>
