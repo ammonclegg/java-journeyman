@@ -72,5 +72,6 @@
   <modules>
     <module>totalCharacters</module>
     <module>file-sorter</module>
+    <module>error-handler</module>
   </modules>
 </project>
