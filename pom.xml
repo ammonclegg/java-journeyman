@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.3.RELEASE</version>
+  </parent>
+
+  <groupId>ammonclegg.java.apprentice</groupId>
+  <artifactId>ammonclegg-java-apprentice</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ET-ammonclegg-java-apprentice</name>
+
+  <properties>
+    <java.compiler.version>1.8</java.compiler.version>
+
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <argLine>${argLine} -Dfile.encoding=UTF-8</argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <!-- Rules for "mvn versions:update-properties" -->
+        <configuration>
+          <!-- Use mercury version rules instead of maven 2 default rules -->
+          <rulesUri>
+            http://nexus.a.fsglobal.net/content/repositories/unapproved/org/familysearch/maven/config/version-rule-set/1.0/version-rule-set-1.0.xml
+          </rulesUri>
+          <!-- Manually updated -->
+          <!--<excludeProperties>-->
+          <!--Include here any properties (e.g. "standards.version") that are manually updated separated by commas. -->
+          <!--</excludeProperties>-->
+          <!-- Automatically updated -->
+          <properties>
+            <property><name>aws-java-sdk.version</name><version>[1.11.33,2.0-!)</version></property>
+          </properties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>1.5.8.RELEASE</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+  </dependencies>
+
+  <modules>
+    <module>totalCharacters</module>
+  </modules>
+</project>
