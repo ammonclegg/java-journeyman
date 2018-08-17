@@ -73,5 +73,6 @@
     <module>totalCharacters</module>
     <module>file-sorter</module>
     <module>error-handler</module>
+    <module>constructor-overloading</module>
   </modules>
 </project>
