@@ -35,21 +35,22 @@ public class CodeSharingApplication implements CommandLineRunner {
     LineWriter lineWriter = new LineWriter(FILENAME);
     XMLWriter xmlWriter = new XMLWriter(FILENAME);
 
-    try {
-      lineWriter.writeMessage("Hello world", "Ammon", "Joe");
-    }
-    catch (IOException e) {
-      LOGGER.error("Encountered error while writing to file", e);
-    }
+    System.out.println(String.format("Writing message to text file %s.txt", FILENAME));
+    writeToFile(lineWriter,"Hello world", "Ammon", "Joe");
 
-    try {
-      xmlWriter.writeMessage("Hello world too", "Ammon", "Joe");
-    }
-    catch (IOException e) {
-      LOGGER.error("Encountered error while writing to file", e);
-    }
+    System.out.println(String.format("Writing message to text file %s.xml", FILENAME));
+    writeToFile(xmlWriter,"Hello world too", "Ammon", "Joe");
 
     System.out.println(String.format("Wrote out to files %s.txt and %s.xml", FILENAME, FILENAME));
 
+  }
+
+  private void writeToFile(Writer writer, String message, String sender, String recipient) {
+    try {
+      writer.writeMessage(message, sender, recipient);
+    }
+    catch (IOException e) {
+      LOGGER.error("Encountered error while writing to file", e);
+    }
   }
 }

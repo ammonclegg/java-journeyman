@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * @author ammonclegg on 9/7/18.
  */
-public class LineWriter extends FileOpener {
+public class LineWriter extends FileOpener implements Writer {
 
   private FileOpener fileOpener;
   private String filename;
@@ -28,6 +28,13 @@ public class LineWriter extends FileOpener {
     appendToFile(filename, line);
   }
 
+  /**
+   * Writes a message to a file
+   * @param message The message to write
+   * @param sender The sender of the message
+   * @param recipient The recipient of the message
+   * @throws IOException
+   */
   public void writeMessage(String message, String sender, String recipient) throws IOException {
     FileOpener.writeToFileStatic(filename, "To: " + recipient);
     writeLineComposition("From: " + sender);
