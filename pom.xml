@@ -74,5 +74,6 @@
     <module>error-handler</module>
     <module>constructor-overloading</module>
     <module>code-sharing</module>
+    <module>bad-encapsulation</module>
   </modules>
 </project>
