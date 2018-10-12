@@ -44,8 +44,13 @@ public class FileSorterApplication implements CommandLineRunner {
     System.out.println("(true/false) Sort in reverse order? ");
 
     boolean reverse = scanner.nextBoolean();
+    Order order = Order.IN_ORDER;
+    if (reverse) {
+      order = Order.REVERSE;
+    }
 
     LOGGER.info("Sorting lines. inputFile={}, outputFile={}, reverse={}", inputFile, outputFile, reverse);
-    fileSorterService.sortFile(inputFile, outputFile, reverse);
+
+    fileSorterService.sortFile(inputFile, outputFile, order);
   }
 }

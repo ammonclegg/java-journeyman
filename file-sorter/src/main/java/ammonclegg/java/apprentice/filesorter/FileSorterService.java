@@ -30,10 +30,10 @@ public class FileSorterService {
     outputFile.close();
   }
 
-  public void sortFile(BufferedReader inputFile, BufferedWriter outputFile, boolean reverse) throws IOException {
+  public void sortFile(BufferedReader inputFile, BufferedWriter outputFile, Order ordering) throws IOException {
     readLines(inputFile);
 
-    if (reverse) {
+    if (Order.REVERSE.equals(ordering)) {
       lines.sort(Collections.reverseOrder());
     }
     else {
@@ -43,9 +43,9 @@ public class FileSorterService {
     outputLines(outputFile);
   }
 
-  public void sortFile(String inputFileName, String outputFileName, boolean reverse) throws IOException {
+  public void sortFile(String inputFileName, String outputFileName, Order ordering) throws IOException {
     BufferedReader inputFile = new BufferedReader(new FileReader(inputFileName));
     BufferedWriter outputFile = new BufferedWriter(new FileWriter(outputFileName));
-    sortFile(inputFile, outputFile, reverse);
+    sortFile(inputFile, outputFile, ordering);
   }
 }
