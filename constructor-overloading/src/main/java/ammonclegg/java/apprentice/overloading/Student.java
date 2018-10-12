@@ -5,17 +5,14 @@ import java.util.Objects;
 /**
  * @author ammonclegg on 8/17/18.
  */
-public class Student {
+public class Student extends Person {
 
   private String id;
-  private String name;
-  private int age;
   private double gpa;
 
   public Student(String id, String name, int age, double gpa) {
+    super(age, name);
     this.id = id;
-    this.name = name;
-    this.age = age;
     this.gpa = gpa;
   }
 
@@ -29,22 +26,6 @@ public class Student {
 
   public Student(String id) {
     this(id, "Joe Friswald");
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getAge() {
-    return age;
-  }
-
-  public void setAge(int age) {
-    this.age = age;
   }
 
   public double getGpa() {

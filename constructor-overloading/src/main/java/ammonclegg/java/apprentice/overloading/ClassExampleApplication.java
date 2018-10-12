@@ -33,26 +33,38 @@ public class ClassExampleApplication implements CommandLineRunner {
   @Override
   @SuppressWarnings({"squid:S106", "squid:S1181"})
   public void run(String... args) {
-    List<Student> students = new ArrayList<>();
+    List<Person> people = new ArrayList<>();
 
-    System.out.println("Creating a class of students");
+    System.out.println("Creating a group of people");
 
     System.out.println(String.format("First a default student with id=%s", FIRST_STUDENT_ID));
 
-    students.add(new Student(FIRST_STUDENT_ID));
+    people.add(new Student(FIRST_STUDENT_ID));
 
     System.out.println(String.format("And now a student named Jessy with id=%s", SECOND_STUDENT_ID));
-    students.add(new Student(SECOND_STUDENT_ID, "Jessy"));
+    people.add(new Student(SECOND_STUDENT_ID, "Jessy"));
 
     System.out.println(String.format("And now a student named Fred with id=%s, who is 26 years old.", THIRD_STUDENT_ID));
-    students.add(new Student(THIRD_STUDENT_ID, "Fred", 26));
+    people.add(new Student(THIRD_STUDENT_ID, "Fred", 26));
 
 
     System.out.println(String.format("And now a student named George with id=%s, who is 29 years old with a gpa of 1.2", FOURTH_STUDENT_ID));
-    students.add(new Student(FOURTH_STUDENT_ID, "George", 29, 1.2));
+    people.add(new Student(FOURTH_STUDENT_ID, "George", 29, 1.2));
 
-    System.out.println("Outputting students");
-    System.out.println(students);
+    System.out.println(String.format("And now a random person named Timmy, age 7"));
+    people.add(new Person(7, "Timmy"));
 
+    System.out.println("Outputting all people");
+    System.out.println(people);
+
+    System.out.println("Outputting gpa for those who are students");
+    for (Person person: people) {
+      if (person instanceof Student) {
+        System.out.println(String.format("Name: %s, GPA=%.2f", person.getName(), ((Student) person).getGpa()));
+      }
+      else {
+        System.out.println(String.format("%s is not a student", person.getName()));
+      }
+    }
   }
 }
