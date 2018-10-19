@@ -31,10 +31,10 @@
     </encoder>
   </appender>
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>${HOME}/log/fs/app.json</file>
+    <file>${HOME}/logs/fs/app.json</file>
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>${HOME}/log/fs/app.json.%d{yyyy-MM-dd_HH}</fileNamePattern>
+      <fileNamePattern>${HOME}/logs/fs/app.json.%d{yyyy-MM-dd_HH}</fileNamePattern>
       <maxHistory>2</maxHistory>
     </rollingPolicy>
 
