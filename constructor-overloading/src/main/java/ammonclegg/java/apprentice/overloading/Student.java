@@ -48,26 +48,25 @@ public class Student extends Person {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
     Student student = (Student) o;
-    return age == student.age &&
-        Double.compare(student.gpa, gpa) == 0 &&
-        Objects.equals(id, student.id) &&
-        Objects.equals(name, student.name);
+    return Double.compare(student.gpa, gpa) == 0 &&
+        Objects.equals(id, student.id);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(id, name, age, gpa);
+    return Objects.hash(super.hashCode(), id, gpa);
   }
 
   @Override
   public String toString() {
     return "Student{" +
         "id='" + id + '\'' +
-        ", name='" + name + '\'' +
-        ", age=" + age +
         ", gpa=" + gpa +
-        '}';
+        ", name='" + getName() + '\'' +
+        ", age=" + getAge() +
+        "}";
   }
 }
