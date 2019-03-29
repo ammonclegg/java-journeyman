@@ -1,5 +1,5 @@
 # java-apprentice
-This repository is to demonstrate the requirements for the java-apprentice badge.
+This repository is to demonstrate the requirements for the java-journeyman badge.
 
 Inside it contains several modules that show examples of different tasks
 
