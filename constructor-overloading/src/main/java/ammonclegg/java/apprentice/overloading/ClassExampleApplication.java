@@ -51,7 +51,7 @@ public class ClassExampleApplication implements CommandLineRunner {
     System.out.println(String.format("And now a student named George with id=%s, who is 29 years old with a gpa of 1.2", FOURTH_STUDENT_ID));
     people.add(new Student(FOURTH_STUDENT_ID, "George", 29, 1.2));
 
-    System.out.println(String.format("And now a random person named Timmy, age 7"));
+    System.out.println("And now a random person named Timmy, age 7");
     people.add(new Person(7, "Timmy"));
 
     System.out.println("Outputting all people");
