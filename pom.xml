@@ -9,11 +9,11 @@
     <version>2.0.3.RELEASE</version>
   </parent>
 
-  <groupId>ammonclegg.java.apprentice</groupId>
-  <artifactId>ammonclegg-java-apprentice</artifactId>
+  <groupId>ammonclegg.java.journeyman</groupId>
+  <artifactId>ammonclegg-java-journeyman</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>ET-ammonclegg-java-apprentice</name>
+  <name>ET-ammonclegg-java-journeyman</name>
 
   <properties>
     <java.compiler.version>1.8</java.compiler.version>
