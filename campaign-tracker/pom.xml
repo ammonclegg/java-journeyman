@@ -7,13 +7,13 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>constructor-overloading</artifactId>
+  <artifactId>campaign-tracker</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>constructor-overloading</name>
+  <name>campaign-tracker</name>
 
   <build>
-    <finalName>constructor-overloading</finalName>
+    <finalName>campaign-tracker</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

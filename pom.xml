@@ -76,6 +76,6 @@
   </dependencyManagement>
 
   <modules>
-    <module>constructor-overloading</module>
+    <module>campaign-tracker</module>
   </modules>
 </project>
