@@ -1,4 +1,9 @@
-package ammonclegg.campaign.tracker.models;
+package ammonclegg.campaign.tracker.models.implementations;
+
+import ammonclegg.campaign.tracker.models.GameCharacter;
+import ammonclegg.campaign.tracker.models.GameEvent;
+import ammonclegg.campaign.tracker.models.GameObject;
+import ammonclegg.campaign.tracker.models.Location;
 
 import java.util.Objects;
 import java.util.Set;
@@ -7,21 +12,11 @@ import java.util.Set;
  * @author ammonclegg on 8/2/19.
  */
 public class Campaign implements GameObject {
-  private String type;
   private String name;
   private String description;
   private Set<Location> locations;
   private Set<GameCharacter> characters;
   private Set<GameEvent> events;
-
-  @Override
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
 
   @Override
   public String getName() {
@@ -70,8 +65,7 @@ public class Campaign implements GameObject {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Campaign campaign = (Campaign) o;
-    return Objects.equals(type, campaign.type) &&
-        Objects.equals(name, campaign.name) &&
+    return Objects.equals(name, campaign.name) &&
         Objects.equals(description, campaign.description) &&
         Objects.equals(locations, campaign.locations) &&
         Objects.equals(characters, campaign.characters) &&
@@ -81,13 +75,12 @@ public class Campaign implements GameObject {
   @Override
   public int hashCode() {
 
-    return Objects.hash(type, name, description, locations, characters, events);
+    return Objects.hash( name, description, locations, characters, events);
   }
 
   @Override
   public String toString() {
     return "Campaign{" +
-        "type='" + type + '\'' +
         ", name='" + name + '\'' +
         ", description='" + description + '\'' +
         ", locations=" + locations +

@@ -9,7 +9,6 @@ import java.util.Objects;
  */
 public class NonPlayerCharacter implements GameCharacter{
   private String name;
-  private String type;
   private String description;
 
   @Override
@@ -19,15 +18,6 @@ public class NonPlayerCharacter implements GameCharacter{
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  @Override
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
   }
 
   @Override
@@ -45,21 +35,19 @@ public class NonPlayerCharacter implements GameCharacter{
     if (o == null || getClass() != o.getClass()) return false;
     NonPlayerCharacter that = (NonPlayerCharacter) o;
     return Objects.equals(name, that.name) &&
-        Objects.equals(type, that.type) &&
         Objects.equals(description, that.description);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(name, type, description);
+    return Objects.hash(name, description);
   }
 
   @Override
   public String toString() {
     return "NonPlayerCharacter{" +
         "name='" + name + '\'' +
-        ", type='" + type + '\'' +
         ", description='" + description + '\'' +
         '}';
   }

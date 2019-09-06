@@ -1,18 +1,16 @@
 package ammonclegg.campaign.tracker.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Interface common to all campaign items
  *
  * @author ammonclegg on 8/2/19.
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.CLASS,
+    include = JsonTypeInfo.As.PROPERTY)
 public interface GameObject {
-
-  /**
-   * Gets the type of object referred.
-   * @return String with game type
-   */
-  String getType();
-
   String getName();
 
   String getDescription();

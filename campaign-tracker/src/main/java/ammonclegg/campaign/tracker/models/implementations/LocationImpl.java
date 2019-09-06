@@ -12,7 +12,6 @@ import java.util.Set;
  */
 public class LocationImpl implements Location {
   private String name;
-  private String type;
   private String description;
   private Location parentLocation;
   private Set<GameCharacter> characters;
@@ -25,15 +24,6 @@ public class LocationImpl implements Location {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  @Override
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
   }
 
   @Override
@@ -78,7 +68,6 @@ public class LocationImpl implements Location {
     if (o == null || getClass() != o.getClass()) return false;
     LocationImpl location = (LocationImpl) o;
     return Objects.equals(name, location.name) &&
-        Objects.equals(type, location.type) &&
         Objects.equals(description, location.description) &&
         Objects.equals(parentLocation, location.parentLocation) &&
         Objects.equals(characters, location.characters) &&
@@ -88,14 +77,13 @@ public class LocationImpl implements Location {
   @Override
   public int hashCode() {
 
-    return Objects.hash(name, type, description, parentLocation, characters, gameEvents);
+    return Objects.hash(name, description, parentLocation, characters, gameEvents);
   }
 
   @Override
   public String toString() {
     return "LocationImpl{" +
         "name='" + name + '\'' +
-        ", type='" + type + '\'' +
         ", description='" + description + '\'' +
         ", parentLocation=" + parentLocation +
         ", characters=" + characters +
