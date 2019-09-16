@@ -1,24 +1,27 @@
-package ammonclegg.campaign.tracker.models.implementations;
+package ammonclegg.campaign.tracker.models;
 
-import ammonclegg.campaign.tracker.models.GameCharacter;
-import ammonclegg.campaign.tracker.models.GameEvent;
-import ammonclegg.campaign.tracker.models.GameObject;
-import ammonclegg.campaign.tracker.models.Location;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author ammonclegg on 8/2/19.
  */
-public class Campaign implements GameObject {
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "name"
+)
+public class Campaign {
   private String name;
   private String description;
-  private Set<Location> locations;
-  private Set<GameCharacter> characters;
-  private Set<GameEvent> events;
+  private Set<Location> locations = new TreeSet<>();
+  private Set<GameCharacter> characters = new TreeSet<>();
+  private Set<GameEvent> events = new HashSet<>();
 
-  @Override
   public String getName() {
     return name;
   }
@@ -27,7 +30,6 @@ public class Campaign implements GameObject {
     this.name = name;
   }
 
-  @Override
   public String getDescription() {
     return description;
   }
@@ -40,23 +42,37 @@ public class Campaign implements GameObject {
     return locations;
   }
 
-  public void setLocations(Set<Location> locations) {
+  /**
+   * Used for serialization/deserialization
+   * @param locations
+   */
+  void setLocations(Set<Location> locations) {
     this.locations = locations;
+  }
+
+  public void addLocation(Location location) {
+    location.setCampaign(this);
+    locations.add(location);
   }
 
   public Set<GameCharacter> getCharacters() {
     return characters;
   }
 
-  public void setCharacters(Set<GameCharacter> characters) {
+  void setCharacters(Set<GameCharacter> characters) {
     this.characters = characters;
+  }
+
+  public void addCharacter(GameCharacter character) {
+    character.setCampaign(this);
+    characters.add(character);
   }
 
   public Set<GameEvent> getEvents() {
     return events;
   }
 
-  public void setEvents(Set<GameEvent> events) {
+  void setEvents(Set<GameEvent> events) {
     this.events = events;
   }
 

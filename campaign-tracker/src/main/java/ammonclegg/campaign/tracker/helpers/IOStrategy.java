@@ -1,6 +1,6 @@
 package ammonclegg.campaign.tracker.helpers;
 
-import ammonclegg.campaign.tracker.models.GameObject;
+import ammonclegg.campaign.tracker.models.Campaign;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public interface IOStrategy {
 
-  void save(String filename, GameObject gameObject) throws IOException;
+  void save(String filename, Campaign gameObject) throws IOException;
 
-  GameObject load(String filename) throws IOException;
+  Campaign load(String filename) throws IOException;
 }

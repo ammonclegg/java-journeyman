@@ -2,7 +2,7 @@ package ammonclegg.campaign.tracker.controllers;
 
 import ammonclegg.campaign.tracker.exceptions.BadTypeException;
 import ammonclegg.campaign.tracker.helpers.IOStrategy;
-import ammonclegg.campaign.tracker.models.implementations.Campaign;
+import ammonclegg.campaign.tracker.models.Campaign;
 import ammonclegg.campaign.tracker.models.implementations.PlayerCharacter;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,15 +52,5 @@ public class CampaignControllerTest {
     
     verify(fileUtil).load(CAMPAIGN_FILENAME);
     assertEquals(expectedCampaign, testModel.getCampaign());
-  }
-
-  @Test(expected = BadTypeException.class)
-  public void testLoadShouldThrowExceptionIfFileDoesntContainACampaign() throws IOException, BadTypeException {
-    PlayerCharacter playerCharacter = new PlayerCharacter();
-    when(fileUtil.load(CAMPAIGN_FILENAME)).thenReturn(playerCharacter);
-
-    testModel.loadCampaign(CAMPAIGN_FILENAME);
-
-    verify(fileUtil).load(CAMPAIGN_FILENAME);
   }
 }

@@ -1,8 +1,7 @@
 package ammonclegg.campaign.tracker.helpers;
 
-import ammonclegg.campaign.tracker.models.implementations.Campaign;
-import ammonclegg.campaign.tracker.models.GameObject;
-import ammonclegg.campaign.tracker.models.implementations.PlayerCharacter;
+import ammonclegg.campaign.tracker.models.Campaign;
+import ammonclegg.campaign.tracker.models.Location;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,11 +17,15 @@ import static org.junit.Assert.*;
 public class JsonIOStrategyTest {
   private static String TEST_FILENAME = "testFile.json";
 
+  private Campaign testCampaign;
+
   private JsonIOStrategy testModel;
 
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
+    testCampaign = new Campaign();
+    testCampaign.setName("FooBar");
 
     testModel = new JsonIOStrategy();
   }
@@ -34,23 +37,22 @@ public class JsonIOStrategyTest {
 
   @Test
   public void saveAndLoadShouldWorkForCampaigns() throws IOException {
-    Campaign campaign = new Campaign();
-    campaign.setName("FooBar");
+    testModel.save(TEST_FILENAME, testCampaign);
+    Campaign result = testModel.load(TEST_FILENAME);
 
-    testModel.save(TEST_FILENAME, campaign);
-    GameObject result = testModel.load(TEST_FILENAME);
-
-    assertEquals(campaign, result);
+    assertEquals(result, testCampaign);
   }
 
   @Test
-  public void saveAndLoadShouldWorkForPC() throws IOException {
-    PlayerCharacter playerCharacter = new PlayerCharacter();
-    playerCharacter.setName("Joe Bag'ODonuts");
+  public void saveCampaignShouldSerializeLocationsProperly() throws IOException {
+    Location parentLocation = new Location(testCampaign, "parent");
+    testCampaign.addLocation(parentLocation);
+    Location location = new Location(testCampaign, "test location", parentLocation);
+    testCampaign.addLocation(location);
 
-    testModel.save(TEST_FILENAME, playerCharacter);
+    testModel.save(TEST_FILENAME, testCampaign);
+    Campaign result = testModel.load(TEST_FILENAME);
 
-    GameObject result = testModel.load(TEST_FILENAME);
-    assertEquals(playerCharacter, result);
+    assertEquals(result, testCampaign);
   }
 }

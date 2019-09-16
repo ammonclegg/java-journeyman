@@ -14,4 +14,8 @@ public interface GameObject {
   String getName();
 
   String getDescription();
+
+  Campaign getCampaign();
+
+  void setCampaign(Campaign campaign);
 }

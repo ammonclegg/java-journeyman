@@ -1,6 +1,6 @@
 package ammonclegg.campaign.tracker.helpers;
 
-import ammonclegg.campaign.tracker.models.GameObject;
+import ammonclegg.campaign.tracker.models.Campaign;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -21,18 +21,20 @@ public class JsonIOStrategy implements IOStrategy {
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Override
-  public void save(String filename, GameObject gameObject) throws IOException {
+  public void save(String filename, Campaign campaign) throws IOException {
+    LOGGER.info("Saving file: {}, Campaign: {}", filename, campaign);
     try {
-      MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File(filename), gameObject);
+      MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File(filename), campaign);
     }
     catch (JsonProcessingException e) {
-      LOGGER.error("Unable to serialize game object. gameObject: {}", gameObject);
+      LOGGER.error("Unable to serialize campaign. campaign: {}", campaign);
       throw new IOException(e);
     }
   }
 
   @Override
-  public GameObject load(String filename) throws IOException {
-    return MAPPER.readValue(new File(filename), GameObject.class);
+  public Campaign load(String filename) throws IOException {
+    LOGGER.info("Loading file: {}", filename);
+    return MAPPER.readValue(new File(filename), Campaign.class);
   }
 }
