@@ -1,9 +1,7 @@
-package ammonclegg.campaign.tracker.controllers;
+package ammonclegg.campaign.tracker.javafx.controllers;
 
-import ammonclegg.campaign.tracker.exceptions.BadTypeException;
 import ammonclegg.campaign.tracker.helpers.IOStrategy;
 import ammonclegg.campaign.tracker.models.Campaign;
-import ammonclegg.campaign.tracker.models.implementations.PlayerCharacter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,7 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +42,7 @@ public class CampaignControllerTest {
   }
 
   @Test
-  public void testLoadShouldLoadCurrentCampaign() throws BadTypeException, IOException {
+  public void testLoadShouldLoadCurrentCampaign() throws IOException {
     Campaign expectedCampaign = new Campaign();
     when(fileUtil.load(CAMPAIGN_FILENAME)).thenReturn(expectedCampaign);
 

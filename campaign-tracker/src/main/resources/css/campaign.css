@@ -1,0 +1,9 @@
+/** campaign.css */
+
+.layout {
+  -fx-background-color: red;
+}
+
+.bold-label {
+  -fx-font-weight: bold;
+}
