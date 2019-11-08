@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -27,11 +29,17 @@ public class Location implements GameObject, Comparable<Location> {
   private Set<GameCharacter> characters = new TreeSet<>();
   private Set<GameEvent> gameEvents = new HashSet<>();
 
+  private PropertyChangeSupport support;
+
   /**
    * For Deserialization/Serialization
    */
   private Location() {
-    this(null, null);
+    this( "Unknown");
+  }
+
+  public Location (String name) {
+    this(null, name);
   }
 
   public Location(Campaign campaign, String name) {
@@ -42,6 +50,15 @@ public class Location implements GameObject, Comparable<Location> {
     this.campaign = campaign;
     this.name = name;
     this.parentLocation = parentLocation;
+    support = new PropertyChangeSupport(this);
+  }
+
+  public void addPropertyChangeListener(PropertyChangeListener pcl) {
+    support.addPropertyChangeListener(pcl);
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener pcl) {
+    support.removePropertyChangeListener(pcl);
   }
 
   @Override

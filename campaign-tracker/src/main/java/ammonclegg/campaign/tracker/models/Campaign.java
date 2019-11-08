@@ -3,6 +3,8 @@ package ammonclegg.campaign.tracker.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,13 +22,27 @@ public class Campaign {
   private String description;
   private Set<Location> locations = new TreeSet<>();
   private Set<GameCharacter> characters = new TreeSet<>();
-  private Set<GameEvent> events = new HashSet<>();
+
+  private PropertyChangeSupport support;
+
+  public Campaign() {
+    support = new PropertyChangeSupport(this);
+  }
+
+  public void addPropertyChangeListener(PropertyChangeListener pcl) {
+    support.addPropertyChangeListener(pcl);
+  }
+
+  public void removePropertyChangeListener(PropertyChangeListener pcl) {
+    support.removePropertyChangeListener(pcl);
+  }
 
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
+    support.firePropertyChange("name", this.name, name);
     this.name = name;
   }
 
@@ -35,6 +51,7 @@ public class Campaign {
   }
 
   public void setDescription(String description) {
+    support.firePropertyChange("description", this.description, description);
     this.description = description;
   }
 
@@ -47,12 +64,18 @@ public class Campaign {
    * @param locations
    */
   void setLocations(Set<Location> locations) {
+    support.firePropertyChange("locations", this.locations, locations);
+    for (Location location: locations) {
+      location.setCampaign(this);
+    }
     this.locations = locations;
   }
 
   public void addLocation(Location location) {
+    Set<Location> old = new TreeSet<>(locations);
     location.setCampaign(this);
     locations.add(location);
+    support.firePropertyChange("locations", old, locations);
   }
 
   public Set<GameCharacter> getCharacters() {
@@ -60,20 +83,18 @@ public class Campaign {
   }
 
   void setCharacters(Set<GameCharacter> characters) {
+    support.firePropertyChange("characters", this.characters, characters);
+    for (GameCharacter character: characters) {
+      character.setCampaign(this);
+    }
     this.characters = characters;
   }
 
   public void addCharacter(GameCharacter character) {
+    Set<GameCharacter> old = new TreeSet<>(characters);
     character.setCampaign(this);
     characters.add(character);
-  }
-
-  public Set<GameEvent> getEvents() {
-    return events;
-  }
-
-  void setEvents(Set<GameEvent> events) {
-    this.events = events;
+    support.firePropertyChange("characters", old, characters);
   }
 
   @Override
@@ -84,14 +105,13 @@ public class Campaign {
     return Objects.equals(name, campaign.name) &&
         Objects.equals(description, campaign.description) &&
         Objects.equals(locations, campaign.locations) &&
-        Objects.equals(characters, campaign.characters) &&
-        Objects.equals(events, campaign.events);
+        Objects.equals(characters, campaign.characters);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash( name, description, locations, characters, events);
+    return Objects.hash( name, description, locations, characters);
   }
 
   @Override
@@ -101,7 +121,6 @@ public class Campaign {
         ", description='" + description + '\'' +
         ", locations=" + locations +
         ", characters=" + characters +
-        ", events=" + events +
         '}';
   }
 }

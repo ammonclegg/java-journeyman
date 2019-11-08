@@ -2,6 +2,8 @@ package ammonclegg.campaign.tracker.models;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.beans.PropertyChangeListener;
+
 /**
  * Interface common to all campaign items
  *
@@ -18,4 +20,8 @@ public interface GameObject {
   Campaign getCampaign();
 
   void setCampaign(Campaign campaign);
+
+  void addPropertyChangeListener(PropertyChangeListener pcl);
+
+  void removePropertyChangeListener(PropertyChangeListener pcl);
 }

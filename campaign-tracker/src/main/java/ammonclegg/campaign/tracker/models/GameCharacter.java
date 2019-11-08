@@ -3,7 +3,10 @@ package ammonclegg.campaign.tracker.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Objects;
+import java.util.Observable;
 
 /**
  * @author ammonclegg on 8/2/19.
@@ -14,16 +17,24 @@ import java.util.Objects;
 )
 public abstract class GameCharacter implements GameObject, Comparable<GameCharacter> {
   private Integer id;
+  private String name;
+  private String description = "";
 
   private Campaign campaign;
+
+  private PropertyChangeSupport support;
 
   /**
    * For Deserialization/Serialization
    */
-  private GameCharacter() {}
+  private GameCharacter() {
+    this("Unknown", null);
+  }
 
-  public GameCharacter(Campaign campaign) {
+  public GameCharacter(String name, Campaign campaign) {
+    this.name = name;
     this.campaign = campaign;
+    support = new PropertyChangeSupport(this);
   }
 
   @Override
@@ -34,6 +45,16 @@ public abstract class GameCharacter implements GameObject, Comparable<GameCharac
   @Override
   public void setCampaign(Campaign campaign) {
     this.campaign = campaign;
+  }
+
+  @Override
+  public void addPropertyChangeListener(PropertyChangeListener pcl) {
+    support.addPropertyChangeListener(pcl);
+  }
+
+  @Override
+  public void removePropertyChangeListener(PropertyChangeListener pcl) {
+    support.removePropertyChangeListener(pcl);
   }
 
   public Integer getId() {
@@ -49,12 +70,31 @@ public abstract class GameCharacter implements GameObject, Comparable<GameCharac
   }
 
   @Override
+  public String getName() {
+
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  @Override
   public int compareTo(GameCharacter o) {
     int compareResults = getName().compareTo(o.getName());
     if (compareResults != 0) {
       return compareResults;
     }
-    return id.compareTo(o.id);
+    return description.compareTo(o.description);
   }
 
   @Override
@@ -62,12 +102,24 @@ public abstract class GameCharacter implements GameObject, Comparable<GameCharac
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     GameCharacter that = (GameCharacter) o;
-    return id == that.id;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(name, that.name) &&
+        Objects.equals(description, that.description);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(id);
+    return Objects.hash(id, name, description);
+  }
+
+  @Override
+  public String toString() {
+    return "GameCharacter{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        ", campaign=" + campaign +
+        '}';
   }
 }
