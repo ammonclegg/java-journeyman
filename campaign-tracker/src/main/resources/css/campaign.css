@@ -1,9 +1,33 @@
 /** campaign.css */
 
-.layout {
-  -fx-background-color: red;
+.menu-bar {
+  -fx-use-system-menu-bar: false;
 }
 
 .bold-label {
   -fx-font-weight: bold;
+}
+
+.list-section {
+
+}
+
+.list-button-box {
+  -fx-max-height: 30px;
+  -fx-min-height: 30px;
+}
+
+.list-anchor-pane {
+  -fx-pref-height: 1800px;
+}
+
+.button {
+  -fx-padding: 5 5 5 5;
+  -fx-pref-width: 120px;
+  -fx-pref-height: 30px;
+  -fx-text-alignment: center;
+}
+
+.layout {
+  -fx-background-color: red;
 }

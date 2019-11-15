@@ -20,6 +20,8 @@ import java.net.URL;
  */
 @Component
 public class StageListener implements ApplicationListener<StageReadyEvent> {
+  private static final int WINDOW_WIDTH = 1000;
+  private static final int WINDOW_HEIGHT = 600;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StageListener.class);
 
@@ -48,7 +50,7 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
       FXMLLoader fxmlLoader = new FXMLLoader(url);
       fxmlLoader.setControllerFactory(applicationContext::getBean);
       Parent root = fxmlLoader.load();
-      Scene scene = new Scene(root, 600, 600);
+      Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
       stage.setScene(scene);
       stage.setTitle(this.applicationTitle);
       stage.show();

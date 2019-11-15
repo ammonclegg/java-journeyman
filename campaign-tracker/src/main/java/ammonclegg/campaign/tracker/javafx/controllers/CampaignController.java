@@ -20,8 +20,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +33,7 @@ import java.util.stream.Collectors;
  * @author ammonclegg on 8/23/19.
  */
 @Component
-public class CampaignController {
+public class CampaignController implements PropertyChangeListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(CampaignController.class);
 
   private final FileChooser fileChooser = new FileChooser();
@@ -42,10 +45,13 @@ public class CampaignController {
   private StageFactory stageFactory;
 
   @FXML
-  private Button addCharacterButton;
+  private Button addLocationButton;
 
   @FXML
-  private ScrollPane characterScrollPane;
+  private ListView locationListView;
+
+  @FXML
+  private Button addCharacterButton;
 
   @FXML
   private ListView characterListView;
@@ -60,8 +66,20 @@ public class CampaignController {
 
   CampaignController(IOStrategy ioStrategy, Campaign campaign) {
     this.ioStrategy = ioStrategy;
-    this.campaign = campaign;
+    setCampaign(campaign);
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Campaigns", ".cmp"));
+  }
+
+  private void setCampaign(Campaign campaign) {
+    if (this.campaign != null) {
+      this.campaign.removePropertyChangeListener(this);
+    }
+    this.campaign = campaign;
+    this.campaign.addPropertyChangeListener(this);
+  }
+
+  Campaign getCampaign() {
+    return campaign;
   }
 
   @FXML
@@ -163,12 +181,29 @@ public class CampaignController {
     Platform.exit();
   }
 
-  private List<String> getCharacterNames() {
-    return campaign.getCharacters().stream().map(GameObject::getName).collect(Collectors.toList());
+  @FXML
+  private void addCharacter() {
+    LOGGER.info("Adding new character");
+    // TODO: Open a create character dialog box
+
+
   }
 
-  Campaign getCampaign() {
-    return campaign;
+  @FXML
+  private void addLocation() {
+    LOGGER.info("Adding new location");
+    // TODO: Open a create location dialog box
+
+
+  }
+
+  private List<String> getCharacterNames() {
+    if (campaign != null) {
+      return campaign.getCharacters().stream().map(GameObject::getName).collect(Collectors.toList());
+    }
+    else {
+      return Collections.emptyList();
+    }
   }
 
   public void save(String filename) throws IOException {
@@ -177,10 +212,17 @@ public class CampaignController {
   }
 
   public void loadCampaign(String filename) throws IOException {
-    campaign = ioStrategy.load(filename);
+    setCampaign(ioStrategy.load(filename));
   }
 
   public Set<Location> getLocations() {
     return campaign.getLocations();
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    if ("characters".equals(evt.getPropertyName())) {
+      characterListView.getItems().addAll(getCharacterNames());
+    }
   }
 }
