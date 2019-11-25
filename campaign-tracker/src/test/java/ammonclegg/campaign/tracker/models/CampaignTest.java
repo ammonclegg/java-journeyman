@@ -2,6 +2,8 @@ package ammonclegg.campaign.tracker.models;
 
 import ammonclegg.campaign.tracker.TestUtils.TestListener;
 import ammonclegg.campaign.tracker.models.implementations.NonPlayerCharacter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,33 +73,33 @@ public class CampaignTest {
   @Test
   public void shouldUpdateLocationsIfSet() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    Set<Location> locationSet = Collections.singleton(newLocation);
+    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
 
-    testModel.setLocations(locationSet);
+    testModel.setLocations(locations);
 
-    assertEquals(locationSet, testModel.getLocations());
+    assertEquals(locations, testModel.getLocations());
   }
 
   @Test
   public void setLocationsShouldSetCampaignForLocations() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    Set<Location> locationSet = Collections.singleton(newLocation);
+    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
 
-    testModel.setLocations(locationSet);
+    testModel.setLocations(locations);
 
-    Set<Location> locations = testModel.getLocations();
-    locations.forEach((location) -> assertEquals(testModel, location.getCampaign()));
+    ObservableList<Location> resultingLocations = testModel.getLocations();
+    resultingLocations.forEach((location) -> assertEquals(testModel, location.getCampaign()));
   }
 
   @Test
   public void shouldFireChangeEventOnLocationsUpdate() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    Set<Location> locationSet = Collections.singleton(newLocation);
+    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
 
-    testModel.setLocations(locationSet);
+    testModel.setLocations(locations);
 
     assertEquals("locations", testListener.getEvent().getPropertyName());
-    assertEquals(Collections.singleton(newLocation), testListener.getEvent().getNewValue());
+    assertEquals(FXCollections.observableArrayList(newLocation), testListener.getEvent().getNewValue());
   }
 
   @Test
@@ -131,30 +133,30 @@ public class CampaignTest {
   @Test
   public void shouldUpdateCharactersIfSet() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    Set<GameCharacter> characterSet = Collections.singleton(newCharacter);
+    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
 
-    testModel.setCharacters(characterSet);
+    testModel.setCharacters(characterList);
 
-    assertEquals(characterSet, testModel.getCharacters());
+    assertEquals(characterList, testModel.getCharacters());
   }
 
   @Test
   public void setCharactersShouldSetCampaignForCharacters() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    Set<GameCharacter> characterSet = Collections.singleton(newCharacter);
+    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
 
-    testModel.setCharacters(characterSet);
+    testModel.setCharacters(characterList);
 
-    Set<GameCharacter> characters = testModel.getCharacters();
+    ObservableList<GameCharacter> characters = testModel.getCharacters();
     characters.forEach((character) -> assertEquals(testModel, character.getCampaign()));
   }
 
   @Test
   public void shouldFireChangeEventOnCharactersUpdate() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    Set<GameCharacter> characterSet = Collections.singleton(newCharacter);
+    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
 
-    testModel.setCharacters(characterSet);
+    testModel.setCharacters(characterList);
 
     assertEquals("characters", testListener.getEvent().getPropertyName());
     assertEquals(Collections.singleton(newCharacter), testListener.getEvent().getNewValue());

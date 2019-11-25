@@ -3,17 +3,19 @@ package ammonclegg.campaign.tracker.javafx.controllers;
 import ammonclegg.campaign.tracker.javafx.StageFactory;
 import ammonclegg.campaign.tracker.helpers.IOStrategy;
 import ammonclegg.campaign.tracker.models.Campaign;
+import ammonclegg.campaign.tracker.models.GameCharacter;
 import ammonclegg.campaign.tracker.models.GameObject;
 import ammonclegg.campaign.tracker.models.Location;
+import ammonclegg.campaign.tracker.models.implementations.NonPlayerCharacter;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +39,7 @@ public class CampaignController implements PropertyChangeListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(CampaignController.class);
 
   private final FileChooser fileChooser = new FileChooser();
+  private TextInputDialog textInputDialog;
   private Campaign campaign;
   private IOStrategy ioStrategy;
   private String filename;
@@ -47,14 +50,24 @@ public class CampaignController implements PropertyChangeListener {
   @FXML
   private Button addLocationButton;
 
+  private ObservableList<Location> locations;
+
   @FXML
-  private ListView locationListView;
+  private ListView<Location> locationListView;
 
   @FXML
   private Button addCharacterButton;
 
+  private ObservableList<GameCharacter> characters;
+
   @FXML
-  private ListView characterListView;
+  private ListView<GameCharacter> characterListView;
+
+  @FXML
+  private AnchorPane characterView;
+
+  @FXML
+  private CharacterController characterController;
 
   @FXML
   private MenuBar menuBar;
@@ -67,6 +80,8 @@ public class CampaignController implements PropertyChangeListener {
   CampaignController(IOStrategy ioStrategy, Campaign campaign) {
     this.ioStrategy = ioStrategy;
     setCampaign(campaign);
+    characters = FXCollections.observableArrayList(campaign.getCharacters());
+    locations = FXCollections.observableArrayList(campaign.getLocations());
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Campaigns", ".cmp"));
   }
 
@@ -84,9 +99,36 @@ public class CampaignController implements PropertyChangeListener {
 
   @FXML
   public void initialize() {
+    textInputDialog = new TextInputDialog();
+    characterListView.setCellFactory(param->new ListCell<GameCharacter>() {
+      @Override
+      public void updateItem(GameCharacter item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+        }
+        if (item != null) {
+          setText(item.getName());
+        }
+      }
+    });
+
+    locationListView.setCellFactory(param->new ListCell<Location>() {
+      @Override
+      public void updateItem(Location item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+        }
+        if (item != null) {
+          setText(item.getName());
+        }
+      }
+    });
+
     if (campaign != null) {
       menuBar.setFocusTraversable(true);
-      characterListView.getItems().addAll(getCharacterNames());
+      characterListView.setItems(campaign.getCharacters());
     }
   }
 
@@ -181,19 +223,37 @@ public class CampaignController implements PropertyChangeListener {
     Platform.exit();
   }
 
+  private Optional<String> getStringValueFromUser(String header, String content) {
+    textInputDialog.setHeaderText(header);
+    textInputDialog.setContentText(content);
+    textInputDialog.setGraphic(null);
+    return textInputDialog.showAndWait();
+  }
+
   @FXML
   private void addCharacter() {
     LOGGER.info("Adding new character");
-    // TODO: Open a create character dialog box
-
-
+    Optional<String> name = getStringValueFromUser("Create Character", "Enter a name");
+    if (name.isPresent() && !name.get().isEmpty()) {
+      LOGGER.info("Adding character to campaign.");
+      campaign.addCharacter(new NonPlayerCharacter(name.get()));
+    }
+    else {
+      LOGGER.info("Aborting add new character. Name not provided.");
+    }
   }
 
   @FXML
   private void addLocation() {
     LOGGER.info("Adding new location");
-    // TODO: Open a create location dialog box
-
+    Optional<String> name = getStringValueFromUser("Create Location", "Enter a name");
+    if (name.isPresent() && !name.get().isEmpty()) {
+      LOGGER.info("Adding location to campaign.");
+      campaign.addLocation(new Location(name.get()));
+    }
+    else {
+      LOGGER.info("Aborting add new location. Name not provided.");
+    }
 
   }
 
@@ -215,14 +275,7 @@ public class CampaignController implements PropertyChangeListener {
     setCampaign(ioStrategy.load(filename));
   }
 
-  public Set<Location> getLocations() {
-    return campaign.getLocations();
-  }
-
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    if ("characters".equals(evt.getPropertyName())) {
-      characterListView.getItems().addAll(getCharacterNames());
-    }
   }
 }

@@ -2,10 +2,13 @@ package ammonclegg.campaign.tracker.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,8 +23,8 @@ import java.util.TreeSet;
 public class Campaign {
   private String name;
   private String description;
-  private Set<Location> locations = new TreeSet<>();
-  private Set<GameCharacter> characters = new TreeSet<>();
+  private ObservableList<Location> locations = FXCollections.observableList(new ArrayList<>());
+  private ObservableList<GameCharacter> characters = FXCollections.observableList(new ArrayList<>());
 
   private PropertyChangeSupport support;
 
@@ -55,7 +58,7 @@ public class Campaign {
     this.description = description;
   }
 
-  public Set<Location> getLocations() {
+  public ObservableList<Location> getLocations() {
     return locations;
   }
 
@@ -63,7 +66,7 @@ public class Campaign {
    * Used for serialization/deserialization
    * @param locations
    */
-  void setLocations(Set<Location> locations) {
+  void setLocations(ObservableList<Location> locations) {
     support.firePropertyChange("locations", this.locations, locations);
     for (Location location: locations) {
       location.setCampaign(this);
@@ -78,11 +81,15 @@ public class Campaign {
     support.firePropertyChange("locations", old, locations);
   }
 
-  public Set<GameCharacter> getCharacters() {
+  public ObservableList<GameCharacter> getCharacters() {
     return characters;
   }
 
-  void setCharacters(Set<GameCharacter> characters) {
+  /**
+   * Used for serialization/deserialization
+   * @param characters
+   */
+  void setCharacters(ObservableList<GameCharacter> characters) {
     support.firePropertyChange("characters", this.characters, characters);
     for (GameCharacter character: characters) {
       character.setCampaign(this);

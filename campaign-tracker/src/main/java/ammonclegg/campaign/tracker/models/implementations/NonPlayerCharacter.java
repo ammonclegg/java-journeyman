@@ -31,7 +31,6 @@ public class NonPlayerCharacter extends GameCharacter{
         "id=" + getId() +
         ", name='" + getName() + '\'' +
         ", description='" + getDescription() + '\'' +
-        ", campaign=" + getCampaign() +
         '}';
   }
 }
