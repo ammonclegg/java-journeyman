@@ -2,13 +2,11 @@ package ammonclegg.campaign.tracker.models;
 
 import ammonclegg.campaign.tracker.TestUtils.TestListener;
 import ammonclegg.campaign.tracker.models.implementations.NonPlayerCharacter;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -73,7 +71,7 @@ public class CampaignTest {
   @Test
   public void shouldUpdateLocationsIfSet() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
+    List<Location> locations = Collections.singletonList(newLocation);
 
     testModel.setLocations(locations);
 
@@ -83,23 +81,23 @@ public class CampaignTest {
   @Test
   public void setLocationsShouldSetCampaignForLocations() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
+    List<Location> locations = Collections.singletonList(newLocation);
 
     testModel.setLocations(locations);
 
-    ObservableList<Location> resultingLocations = testModel.getLocations();
+    List<Location> resultingLocations = testModel.getLocations();
     resultingLocations.forEach((location) -> assertEquals(testModel, location.getCampaign()));
   }
 
   @Test
   public void shouldFireChangeEventOnLocationsUpdate() {
     Location newLocation = new Location(TEST_LOCATION_NAME);
-    ObservableList<Location> locations = FXCollections.observableArrayList(newLocation);
+    List<Location> locations = Collections.singletonList(newLocation);
 
     testModel.setLocations(locations);
 
     assertEquals("locations", testListener.getEvent().getPropertyName());
-    assertEquals(FXCollections.observableArrayList(newLocation), testListener.getEvent().getNewValue());
+    assertEquals(Collections.singletonList(newLocation), testListener.getEvent().getNewValue());
   }
 
   @Test
@@ -127,13 +125,13 @@ public class CampaignTest {
     testModel.addLocation(newLocation);
 
     assertEquals("locations", testListener.getEvent().getPropertyName());
-    assertEquals(Collections.singleton(newLocation), testListener.getEvent().getNewValue());
+    assertEquals(Collections.singletonList(newLocation), testListener.getEvent().getNewValue());
   }
 
   @Test
   public void shouldUpdateCharactersIfSet() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
+    List<GameCharacter> characterList = Collections.singletonList(newCharacter);
 
     testModel.setCharacters(characterList);
 
@@ -143,23 +141,23 @@ public class CampaignTest {
   @Test
   public void setCharactersShouldSetCampaignForCharacters() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
+    List<GameCharacter> characterList = Collections.singletonList(newCharacter);
 
     testModel.setCharacters(characterList);
 
-    ObservableList<GameCharacter> characters = testModel.getCharacters();
+    List<GameCharacter> characters = testModel.getCharacters();
     characters.forEach((character) -> assertEquals(testModel, character.getCampaign()));
   }
 
   @Test
   public void shouldFireChangeEventOnCharactersUpdate() {
     GameCharacter newCharacter = new NonPlayerCharacter(TEST_CHARACTER_NAME);
-    ObservableList<GameCharacter> characterList = FXCollections.observableArrayList(Collections.singleton(newCharacter));
+    List<GameCharacter> characterList = Collections.singletonList(newCharacter);
 
     testModel.setCharacters(characterList);
 
     assertEquals("characters", testListener.getEvent().getPropertyName());
-    assertEquals(Collections.singleton(newCharacter), testListener.getEvent().getNewValue());
+    assertEquals(Collections.singletonList(newCharacter), testListener.getEvent().getNewValue());
   }
 
   @Test
@@ -187,6 +185,6 @@ public class CampaignTest {
     testModel.addCharacter(newCharacter);
 
     assertEquals("characters", testListener.getEvent().getPropertyName());
-    assertEquals(Collections.singleton(newCharacter), testListener.getEvent().getNewValue());
+    assertEquals(Collections.singletonList(newCharacter), testListener.getEvent().getNewValue());
   }
 }

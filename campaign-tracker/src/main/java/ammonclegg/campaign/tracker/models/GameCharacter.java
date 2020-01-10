@@ -1,6 +1,7 @@
 package ammonclegg.campaign.tracker.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.beans.PropertyChangeListener;
@@ -16,12 +17,16 @@ import java.util.Observable;
     property = "id"
 )
 public abstract class GameCharacter implements GameObject, Comparable<GameCharacter> {
+  public static final String NAME = "name";
+
   private Integer id;
   private String name;
   private String description = "";
 
+  @JsonIgnore
   private Campaign campaign;
 
+  @JsonIgnore
   private PropertyChangeSupport support;
 
   /**
@@ -76,7 +81,9 @@ public abstract class GameCharacter implements GameObject, Comparable<GameCharac
   }
 
   public void setName(String name) {
+    String old = this.name;
     this.name = name;
+    support.firePropertyChange(NAME, old, this.name);
   }
 
   @Override

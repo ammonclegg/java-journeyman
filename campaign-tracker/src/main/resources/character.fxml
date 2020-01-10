@@ -10,5 +10,5 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="ammonclegg.campaign.tracker.javafx.controllers.CharacterController"
             prefHeight="400.0" prefWidth="600.0">
-  <Label fx:id="Name">Placeholder</Label>
+  <Label fx:id="characterName">Placeholder</Label>
 </AnchorPane>

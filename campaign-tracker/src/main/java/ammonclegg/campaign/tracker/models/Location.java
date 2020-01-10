@@ -29,6 +29,7 @@ public class Location implements GameObject, Comparable<Location> {
   private Set<GameCharacter> characters = new TreeSet<>();
   private Set<GameEvent> gameEvents = new HashSet<>();
 
+  @JsonIgnore
   private PropertyChangeSupport support;
 
   /**

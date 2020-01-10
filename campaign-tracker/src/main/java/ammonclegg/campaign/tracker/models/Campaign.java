@@ -1,17 +1,13 @@
 package ammonclegg.campaign.tracker.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author ammonclegg on 8/2/19.
@@ -21,11 +17,19 @@ import java.util.TreeSet;
     property = "name"
 )
 public class Campaign {
+  // Constants for Property change listeners
+  public static final String CHARACTERS = "characters";
+  public static final String LOCATIONS = "locations";
+  public static final String DESCRIPTION = "description";
+  public static final String NAME = "name";
+
+
   private String name;
   private String description;
-  private ObservableList<Location> locations = FXCollections.observableList(new ArrayList<>());
-  private ObservableList<GameCharacter> characters = FXCollections.observableList(new ArrayList<>());
+  private List<Location> locations = new ArrayList<>();
+  private List<GameCharacter> characters = new ArrayList<>();
 
+  @JsonIgnore
   private PropertyChangeSupport support;
 
   public Campaign() {
@@ -45,7 +49,7 @@ public class Campaign {
   }
 
   public void setName(String name) {
-    support.firePropertyChange("name", this.name, name);
+    support.firePropertyChange(NAME, this.name, name);
     this.name = name;
   }
 
@@ -54,11 +58,11 @@ public class Campaign {
   }
 
   public void setDescription(String description) {
-    support.firePropertyChange("description", this.description, description);
+    support.firePropertyChange(DESCRIPTION, this.description, description);
     this.description = description;
   }
 
-  public ObservableList<Location> getLocations() {
+  public List<Location> getLocations() {
     return locations;
   }
 
@@ -66,22 +70,22 @@ public class Campaign {
    * Used for serialization/deserialization
    * @param locations
    */
-  void setLocations(ObservableList<Location> locations) {
-    support.firePropertyChange("locations", this.locations, locations);
+  void setLocations(List<Location> locations) {
+    support.firePropertyChange(LOCATIONS, this.locations, locations);
     for (Location location: locations) {
       location.setCampaign(this);
     }
-    this.locations = locations;
+    this.locations = FXCollections.observableList(locations);
   }
 
   public void addLocation(Location location) {
-    Set<Location> old = new TreeSet<>(locations);
+    List<Location> old = new ArrayList<>(locations);
     location.setCampaign(this);
     locations.add(location);
-    support.firePropertyChange("locations", old, locations);
+    support.firePropertyChange(LOCATIONS, old, locations);
   }
 
-  public ObservableList<GameCharacter> getCharacters() {
+  public List<GameCharacter> getCharacters() {
     return characters;
   }
 
@@ -89,8 +93,8 @@ public class Campaign {
    * Used for serialization/deserialization
    * @param characters
    */
-  void setCharacters(ObservableList<GameCharacter> characters) {
-    support.firePropertyChange("characters", this.characters, characters);
+  void setCharacters(List<GameCharacter> characters) {
+    support.firePropertyChange(CHARACTERS, this.characters, characters);
     for (GameCharacter character: characters) {
       character.setCampaign(this);
     }
@@ -98,10 +102,10 @@ public class Campaign {
   }
 
   public void addCharacter(GameCharacter character) {
-    Set<GameCharacter> old = new TreeSet<>(characters);
+    List<GameCharacter> old = new ArrayList<>(characters);
     character.setCampaign(this);
     characters.add(character);
-    support.firePropertyChange("characters", old, characters);
+    support.firePropertyChange(CHARACTERS, old, characters);
   }
 
   @Override
