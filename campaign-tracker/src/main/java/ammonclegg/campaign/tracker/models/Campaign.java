@@ -12,15 +12,12 @@ import java.util.*;
 /**
  * @author ammonclegg on 8/2/19.
  */
-@JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "name"
-)
 public class Campaign {
   // Constants for Property change listeners
   public static final String NAME = "name";
 
   private String name;
+  private List<CampaignObject> campaignObjects = new ArrayList<>();
 
   @JsonIgnore
   private PropertyChangeSupport support;
@@ -44,6 +41,35 @@ public class Campaign {
   public void setName(String name) {
     support.firePropertyChange(NAME, this.name, name);
     this.name = name;
+  }
+
+  /**
+   * Update the campaigns list of objects
+   * @param campaignObjects The list of objects to add to the campaign
+   */
+  public void setCampaignObjects(List<CampaignObject> campaignObjects) {
+    this.campaignObjects = campaignObjects;
+  }
+
+  public Optional<CampaignObject> getCampaignObject(UUID id) {
+    return campaignObjects.stream().filter(campaignObject->campaignObject.getId().equals(id)).findFirst();
+  }
+
+  public UUID createCampaignObject(String name) {
+    CampaignObject newObject = new CampaignObject();
+    newObject.setName(name);
+    campaignObjects.add(newObject);
+    return newObject.getId();
+  }
+
+  public List<CampaignObject> getCampaignObjects() {
+    return campaignObjects;
+  }
+
+  // TODO: Add a filtered campaign objects get
+
+  public void removeCampaignObject(UUID id) {
+
   }
 
   @Override

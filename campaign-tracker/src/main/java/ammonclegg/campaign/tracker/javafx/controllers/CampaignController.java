@@ -3,7 +3,10 @@ package ammonclegg.campaign.tracker.javafx.controllers;
 import ammonclegg.campaign.tracker.javafx.StageFactory;
 import ammonclegg.campaign.tracker.helpers.IOStrategy;
 import ammonclegg.campaign.tracker.models.Campaign;
+import ammonclegg.campaign.tracker.models.CampaignObject;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -40,9 +43,15 @@ public class CampaignController implements PropertyChangeListener {
   @FXML
   private MenuBar menuBar;
 
+  private ObservableList<CampaignObject> objectObservableList;
+
+  @FXML
+  private ListView<CampaignObject> objectListView;
+
   @Autowired
   public CampaignController(IOStrategy ioStrategy) {
     this(ioStrategy, new Campaign());
+    objectObservableList = FXCollections.observableArrayList(campaign.getCampaignObjects());
   }
 
   CampaignController(IOStrategy ioStrategy, Campaign campaign) {
@@ -69,20 +78,19 @@ public class CampaignController implements PropertyChangeListener {
   @FXML
   public void initialize() {
     textInputDialog = new TextInputDialog();
-//
-//    characterListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->characterController.setCharacter(newValue));
-//    characterListView.setCellFactory(param->new ListCell<GameCharacter>() {
-//      @Override
-//      public void updateItem(GameCharacter item, boolean empty) {
-//        super.updateItem(item, empty);
-//        if (empty || item == null) {
-//          setText(null);
-//        }
-//        if (item != null) {
-//          setText(item.getName());
-//        }
-//      }
-//    });
+
+    objectListView.setCellFactory(param->new ListCell<CampaignObject>() {
+      @Override
+      public void updateItem(CampaignObject item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+        }
+        if (item != null) {
+          setText(item.getName());
+        }
+      }
+    });
 
     if (campaign != null) {
       menuBar.setFocusTraversable(true);
@@ -178,6 +186,22 @@ public class CampaignController implements PropertyChangeListener {
   @FXML
   private void exit() {
     Platform.exit();
+  }
+
+  private void updateCharacterList() {
+    if (objectListView != null) {
+      if (campaign != null) {
+        objectListView.setItems(FXCollections.observableList(campaign.getCampaignObjects()));
+      }
+      else {
+        objectListView.setItems(FXCollections.observableArrayList());
+      }
+    }
+  }
+
+  @FXML
+  private void addObject() {
+
   }
 
   private Optional<String> getStringValueFromUser(String header, String content) {

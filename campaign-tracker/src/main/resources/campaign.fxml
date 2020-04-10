@@ -5,27 +5,59 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?scenebuilder-stylesheet css/campaign.css?>
 
-<AnchorPane fx:id="campaignWindow" styleClass="layout" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ammonclegg.campaign.tracker.javafx.controllers.CampaignController">
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.Button?>
+<AnchorPane fx:id="campaignWindow" prefHeight="288.0" prefWidth="461.0" styleClass="layout" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ammonclegg.campaign.tracker.javafx.controllers.CampaignController">
   <stylesheets>
-    <URL value="@css/campaign.css"/>
+    <URL value="@css/campaign.css" />
   </stylesheets>
   <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
     <menus>
       <Menu text="File">
         <items>
-          <MenuItem onAction="#newCampaign" text="New"/>
-          <MenuItem onAction="#loadCampaign" text="Open"/>
-          <MenuItem onAction="#saveCampaign" text="Save"/>
-          <MenuItem onAction="#saveCampaignAs" text="Save As"/>
-          <SeparatorMenuItem/>
-          <MenuItem onAction="#exit" text="Exit"/>
+          <MenuItem onAction="#newCampaign" text="New" />
+          <MenuItem onAction="#loadCampaign" text="Open" />
+          <MenuItem onAction="#saveCampaign" text="Save" />
+          <MenuItem onAction="#saveCampaignAs" text="Save As" />
+          <SeparatorMenuItem />
+          <MenuItem onAction="#exit" text="Exit" />
         </items>
       </Menu>
     </menus>
   </MenuBar>
+  <SplitPane prefHeight="800.0" prefWidth="1200.0" dividerPositions="0.25" AnchorPane.bottomAnchor="0.0"
+             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0">
+        <children>
+          <VBox prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="list-anchor-pane">
+              <children>
+                <ListView fx:id="objectListView" styleClass="list-section" AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0"/>
+              </children>
+            </AnchorPane>
+            <Separator/>
+            <FlowPane minHeight="0.0" minWidth="0.0" styleClass="list-button-box">
+              <children>
+                <Button fx:id="addObjectButton" mnemonicParsing="false" onAction="#addObject"
+                        text="Add Object"/>
+              </children>
+            </FlowPane>
+          </VBox>
+        </children>
+      </AnchorPane>
+    </items>
+  </SplitPane>
+
 </AnchorPane>
