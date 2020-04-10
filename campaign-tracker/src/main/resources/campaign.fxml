@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.VBox?>
 <?scenebuilder-stylesheet css/campaign.css?>
 
 <AnchorPane fx:id="campaignWindow" styleClass="layout" xmlns="http://javafx.com/javafx/8.0.172-ea"
@@ -36,72 +28,4 @@
       </Menu>
     </menus>
   </MenuBar>
-  <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
-           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-    <tabs>
-      <Tab fx:id="locationsTab" text="Locations">
-        <content>
-          <SplitPane dividerPositions="0.25">
-            <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0">
-                  <children>
-                    <VBox prefHeight="200.0" prefWidth="160.0" styleClass="list-section" AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                      <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="list-anchor-pane">
-                        <children>
-                          <ListView fx:id="locationListView" styleClass="list-section" AnchorPane.bottomAnchor="0.0"
-                                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                    AnchorPane.topAnchor="0.0"/>
-                        </children>
-                      </AnchorPane>
-                      <Separator/>
-                      <FlowPane minHeight="0.0" minWidth="0.0" styleClass="list-button-box">
-                        <children>
-                          <Button fx:id="addLocationButton" mnemonicParsing="false" onAction="#addLocation"
-                                  text="Add Location"/>
-                        </children>
-                      </FlowPane>
-                    </VBox>
-                  </children>
-                </AnchorPane>
-              <AnchorPane>
-
-              </AnchorPane>
-            </items>
-          </SplitPane>
-        </content>
-      </Tab>
-      <Tab fx:id="charactersTab" text="Characters">
-        <content>
-          <SplitPane dividerPositions="0.25" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
-                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-              <AnchorPane minHeight="0.0" minWidth="0.0">
-                <children>
-                  <VBox prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="list-anchor-pane">
-                      <children>
-                        <ListView fx:id="characterListView" styleClass="list-section" AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                                  AnchorPane.topAnchor="0.0"/>
-                      </children>
-                    </AnchorPane>
-                    <Separator/>
-                    <FlowPane minHeight="0.0" minWidth="0.0" styleClass="list-button-box">
-                      <children>
-                        <Button fx:id="addCharacterButton" mnemonicParsing="false" onAction="#addCharacter"
-                                text="Add Character"/>
-                      </children>
-                    </FlowPane>
-                  </VBox>
-                </children>
-              </AnchorPane>
-              <fx:include fx:id="characterView" source="character.fxml"/>
-            </items>
-          </SplitPane>
-        </content>
-      </Tab>
-    </tabs>
-  </TabPane>
 </AnchorPane>
