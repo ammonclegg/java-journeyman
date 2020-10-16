@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
  */
 public class CampaignControllerTest {
   private static final String CAMPAIGN_FILENAME = "testcampaign";
+  private static final String TEST_CAMPAIGN_OBJECT_NAME = "testObject";
 
   @Mock
   private IOStrategy fileUtil;
@@ -47,8 +48,15 @@ public class CampaignControllerTest {
     when(fileUtil.load(CAMPAIGN_FILENAME)).thenReturn(expectedCampaign);
 
     testModel.loadCampaign(CAMPAIGN_FILENAME);
-    
+
     verify(fileUtil).load(CAMPAIGN_FILENAME);
     assertEquals(expectedCampaign, testModel.getCampaign());
+  }
+
+  @Test
+  public void testAddCampaignObjectShouldAddANewObjectToTheCampaign() {
+    testModel.createCampaignObject(TEST_CAMPAIGN_OBJECT_NAME);
+
+    verify(campaign).createCampaignObject(TEST_CAMPAIGN_OBJECT_NAME);
   }
 }

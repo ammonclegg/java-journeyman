@@ -12,6 +12,7 @@ import java.util.*;
 public class Campaign {
   // Constants for Property change listeners
   public static final String NAME = "name";
+  public static final String CAMPAIGN_OBJECTS = "campaignObjects";
 
   private String name;
   private List<CampaignObject> campaignObjects = new ArrayList<>();
@@ -40,12 +41,21 @@ public class Campaign {
     this.name = name;
   }
 
+  private void addCampaignObjects(List<CampaignObject> objects) {
+    List<CampaignObject> oldList = Collections.unmodifiableList(new ArrayList<>(this.campaignObjects));
+    campaignObjects.addAll(objects);
+    support.firePropertyChange(CAMPAIGN_OBJECTS, oldList, campaignObjects);
+  }
+
   /**
    * Update the campaigns list of objects
+   *
    * @param campaignObjects The list of objects to add to the campaign
    */
   public void setCampaignObjects(List<CampaignObject> campaignObjects) {
-    this.campaignObjects = campaignObjects;
+    List<CampaignObject> oldList = Collections.unmodifiableList(new ArrayList<>(this.campaignObjects));
+    this.campaignObjects = new ArrayList<>(campaignObjects);
+    support.firePropertyChange(CAMPAIGN_OBJECTS, oldList, campaignObjects);
   }
 
   public Optional<CampaignObject> getCampaignObject(UUID id) {
@@ -55,7 +65,7 @@ public class Campaign {
   public UUID createCampaignObject(String name) {
     CampaignObject newObject = new CampaignObject();
     newObject.setName(name);
-    campaignObjects.add(newObject);
+    addCampaignObjects(Collections.singletonList(newObject));
     return newObject.getId();
   }
 
@@ -63,11 +73,17 @@ public class Campaign {
     return campaignObjects;
   }
 
-  // TODO: Add a filtered campaign objects get
-
-  public void removeCampaignObject(UUID id) {
-
-  }
+//  public List<CampaignObject> getCampaignObjectsByName(String name) {
+//
+//  }
+//
+//  public List<CampaignObject> getCampaignObjectsByTag(String tag) {
+//
+//  }
+//
+//  public void removeCampaignObject(UUID id) {
+//
+//  }
 
   @Override
   public boolean equals(Object o) {

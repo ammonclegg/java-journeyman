@@ -1,0 +1,5 @@
+Add ability to create new CampaignObjects
+Add ability to delete a CampaignObject
+Add ability to modify a CampaignObject
+Add ability to search for a CampaignObject by Name
+Add ability to search for a CampaignObject by Tag

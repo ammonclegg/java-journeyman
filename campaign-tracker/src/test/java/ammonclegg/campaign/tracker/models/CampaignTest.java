@@ -4,10 +4,7 @@ import ammonclegg.campaign.tracker.TestUtils.TestListener;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -72,5 +69,39 @@ public class CampaignTest {
     List<CampaignObject> result = testModel.getCampaignObjects();
 
     assertEquals(expected, result);
+  }
+
+  @Test
+  public void shouldFireChangeEventOnSetCampaignObjects() {
+    List<CampaignObject> expected = new ArrayList<>();
+    expected.add(new CampaignObject());
+
+    testModel.setCampaignObjects(expected);
+
+    assertEquals("campaignObjects", testListener.getEvent().getPropertyName());
+    assertEquals(expected, testListener.getEvent().getNewValue());
+  }
+
+  @Test
+  public void createCampaignObjectsShouldCreateANewObjects() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    List<CampaignObject> result = testModel.getCampaignObjects();
+
+    assertEquals(1, result.size());
+    assertEquals(expectedName, result.stream().findFirst().orElse(new CampaignObject()).getName());
+  }
+
+  @Test
+  public void shouldFireChangeEventOnCreateCampaignObjects() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    CampaignObject createdObject = testModel.getCampaignObject(id).orElse(null);
+    List<CampaignObject> expectedList = Collections.singletonList(createdObject);
+
+    assertEquals("campaignObjects", testListener.getEvent().getPropertyName());
+    assertEquals(expectedList, testListener.getEvent().getNewValue());
   }
 }

@@ -208,7 +208,12 @@ public class CampaignController implements PropertyChangeListener {
 
   @FXML
   private void addObject() {
+    Optional<String> name = getStringValueFromUser("New Object", "Enter a name:");
+    name.ifPresent(this::createCampaignObject);
+  }
 
+  void createCampaignObject(String name) {
+    campaign.createCampaignObject(name);
   }
 
   private Optional<String> getStringValueFromUser(String header, String content) {
@@ -232,5 +237,9 @@ public class CampaignController implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
+    LOGGER.info("Got property change: {}", evt);
+    if (Campaign.CAMPAIGN_OBJECTS.equals(evt.getPropertyName())) {
+      updateCampaignObjectList();
+    }
   }
 }
