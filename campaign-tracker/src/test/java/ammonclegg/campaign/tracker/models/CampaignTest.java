@@ -104,4 +104,48 @@ public class CampaignTest {
     assertEquals("campaignObjects", testListener.getEvent().getPropertyName());
     assertEquals(expectedList, testListener.getEvent().getNewValue());
   }
+
+  @Test
+  public void shouldRemoveCampaignObject() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    testModel.removeCampaignObject(id);
+    List<CampaignObject> result = testModel.getCampaignObjects();
+
+    assertEquals(0, result.size());
+  }
+
+  @Test
+  public void shouldFireChangeEventOnRemoveCampaignObject() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    testModel.removeCampaignObject(id);
+
+    assertEquals("campaignObjects", testListener.getEvent().getPropertyName());
+    assertEquals(Collections.emptyList(), testListener.getEvent().getNewValue());
+  }
+
+  @Test
+  public void shouldGetCampaignObject() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    CampaignObject result = testModel.getCampaignObject(id).orElse(null);
+
+    assertEquals(expectedName, result.getName());
+  }
+
+  @Test
+  public void shouldGetCampaignObjectByName() {
+    String expectedName = "test name object";
+
+    UUID id = testModel.createCampaignObject(expectedName);
+    List<CampaignObject> result = testModel.getCampaignObjectsByName(expectedName);
+
+    assertEquals(1, result.size());
+    assertEquals(expectedName, result.get(0).getName());
+    assertEquals(id, result.get(0).getId());
+  }
 }

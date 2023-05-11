@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author ammonclegg on 8/2/19.
@@ -73,15 +74,11 @@ public class Campaign {
     return campaignObjects;
   }
 
-//  public List<CampaignObject> getCampaignObjectsByName(String name) {
-//
-//  }
+  public List<CampaignObject> getCampaignObjectsByName(String name) {
+    return campaignObjects.stream().filter(campaignObject -> campaignObject.getName().equals(name)).collect(Collectors.toList());
+  }
 //
 //  public List<CampaignObject> getCampaignObjectsByTag(String tag) {
-//
-//  }
-//
-//  public void removeCampaignObject(UUID id) {
 //
 //  }
 
@@ -102,7 +99,21 @@ public class Campaign {
   @Override
   public String toString() {
     return "Campaign{" +
-        "name='" + name + '\'' +
-        '}';
+            "name='" + name + '\'' +
+            '}';
   }
+
+
+  /**
+   * Removes a campaign object
+   *
+   * @param id
+   */
+  public void removeCampaignObject(UUID id) {
+    List<CampaignObject> oldList = Collections.unmodifiableList(new ArrayList<>(this.campaignObjects));
+    campaignObjects.removeIf(campaignObject -> campaignObject.getId().equals(id));
+    support.firePropertyChange(CAMPAIGN_OBJECTS, oldList, campaignObjects);
+  }
+
+
 }
